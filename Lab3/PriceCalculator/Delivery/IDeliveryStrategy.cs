@@ -1,7 +1,6 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Delivery;
+
+public interface IDeliveryStrategy
 {
-    public interface IDeliveryStrategy
-    {
-        decimal CalculateDeliveryCost(decimal orderAmount);
-    }
+    decimal CalculateDeliveryCost(decimal orderAmount);
 }

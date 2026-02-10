@@ -1,17 +1,16 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Taxes;
+
+public class TaxStrategy : ITaxStrategy
 {
-    public class TaxStrategy : ITaxStrategy
+    private decimal _rate;
+
+    public TaxStrategy(decimal rate = 20)
     {
-        private decimal _rate;
+        _rate = rate;
+    }
 
-        public TaxStrategy(decimal rate = 20)
-        {
-            _rate = rate;
-        }
-
-        public decimal CalculateTax(decimal amount)
-        {
-            return amount * (_rate / 100);
-        }
+    public decimal CalculateTax(decimal amount)
+    {
+        return amount * (_rate / 100);
     }
 }

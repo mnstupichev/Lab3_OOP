@@ -1,7 +1,6 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Taxes;
+
+public interface ITaxStrategy
 {
-    public interface ITaxStrategy
-    {
-        decimal CalculateTax(decimal amount);
-    }
+    decimal CalculateTax(decimal amount);
 }

@@ -1,17 +1,17 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Discount;
+
+public class PercentDiscountStrategy : IDiscountStrategy
 {
-    public class PercentDiscountStrategy : IDiscountStrategy
+    private decimal _percent;
+
+    public PercentDiscountStrategy(decimal percent)
     {
-        private decimal _percent;
+        _percent = percent;
+    }
 
-        public PercentDiscountStrategy(decimal percent)
-        {
-            _percent = percent;
-        }
-
-        public decimal CalculateDiscount(decimal amount)
-        {
-            return amount * (_percent / 100);
-        }
+    public decimal CalculateDiscount(decimal amount)
+    {
+        return amount * (_percent / 100);
     }
 }
+

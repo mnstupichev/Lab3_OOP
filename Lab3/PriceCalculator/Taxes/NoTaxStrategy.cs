@@ -1,10 +1,9 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Taxes;
+
+public class NoTaxStrategy : ITaxStrategy
 {
-    public class NoTaxStrategy : ITaxStrategy
+    public decimal CalculateTax(decimal amount)
     {
-        public decimal CalculateTax(decimal amount)
-        {
-            return 0;
-        }
+        return 0;
     }
 }

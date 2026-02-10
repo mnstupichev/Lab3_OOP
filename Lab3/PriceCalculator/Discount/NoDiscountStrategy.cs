@@ -1,10 +1,10 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Discount;
+
+public class NoDiscountStrategy : IDiscountStrategy
 {
-    public class NoDiscountStrategy : IDiscountStrategy
+    public decimal CalculateDiscount(decimal amount)
     {
-        public decimal CalculateDiscount(decimal amount)
-        {
-            return 0;
-        }
+        return 0;
     }
 }
+

@@ -1,7 +1,7 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Discount;
+
+public interface IDiscountStrategy
 {
-    public interface IDiscountStrategy
-    {
-        decimal CalculateDiscount(decimal amount);
-    }
+    decimal CalculateDiscount(decimal amount);
 }
+

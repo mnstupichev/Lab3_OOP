@@ -1,21 +1,21 @@
-namespace FoodDelivery.Patterns.Strategy
+namespace Lab3.PriceCalculator.Delivery;
+
+public class FreeDeliveryStrategy : IDeliveryStrategy
 {
-    public class FreeDeliveryStrategy : IDeliveryStrategy
+    private decimal _threshold;
+
+    public FreeDeliveryStrategy(decimal threshold = 1000)
     {
-        private decimal _threshold;
+        _threshold = threshold;
+    }
 
-        public FreeDeliveryStrategy(decimal threshold = 1000)
+    public decimal CalculateDeliveryCost(decimal orderAmount)
+    {
+        if (orderAmount > _threshold)
         {
-            _threshold = threshold;
-        }
-
-        public decimal CalculateDeliveryCost(decimal orderAmount)
-        {
-            if (orderAmount >= _threshold)
-            {
-                return 0;
-            }
             return 0;
         }
+        return 100;
     }
 }
+

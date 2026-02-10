@@ -1,86 +1,24 @@
-using FoodDelivery.Patterns.State;
+using Lab3.Menu;
 
-namespace FoodDelivery.Models
+namespace Lab3.Order;
+    
+public class Order
 {
-    public class Order
+    public List<IMenuItem> Items;
+    public string? Address;
+    public OrderStage _stage { get; private set; }
+    public bool Paid { get; }
+
+    public Order(string address, bool paid, List<IMenuItem> items)
     {
-        private List<MenuItem> _items;
-        private string? _address;
-        private IOrderState _state;
-        private bool _isPaid;
-        private decimal _totalPrice;
+        Items = items;
+        _stage = OrderStage.Created;
+        Paid = false;
+    }
 
-        public Order()
-        {
-            _items = new List<MenuItem>();
-            _state = new CreatedState();
-            _isPaid = false;
-            _totalPrice = 0;
-        }
-
-        public void AddItem(MenuItem item)
-        {
-            _items.Add(item);
-        }
-
-        public List<MenuItem> GetItems()
-        {
-            return _items;
-        }
-
-        public void SetAddress(string address)
-        {
-            _address = address;
-        }
-
-        public string? GetAddress()
-        {
-            return _address;
-        }
-
-        public void SetState(IOrderState state)
-        {
-            _state = state;
-        }
-
-        public IOrderState GetState()
-        {
-            return _state;
-        }
-
-        public void NextState()
-        {
-            _state.Next(this);
-        }
-
-        public string GetStateName()
-        {
-            return _state.GetName();
-        }
-
-        public void SetPaid(bool paid)
-        {
-            _isPaid = paid;
-        }
-
-        public bool IsPaid()
-        {
-            return _isPaid;
-        }
-
-        public void SetTotalPrice(decimal price)
-        {
-            _totalPrice = price;
-        }
-
-        public decimal GetTotalPrice()
-        {
-            return _totalPrice;
-        }
-
-        public decimal GetItemsPrice()
-        {
-            return _items.Sum(item => item.GetPrice());
-        }
+    public void ChangeStage(OrderStage stage)
+    {
+        _stage =  stage;
     }
 }
+

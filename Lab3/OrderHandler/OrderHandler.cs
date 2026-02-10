@@ -1,26 +1,24 @@
-using FoodDelivery.Models;
+namespace Lab3.OrderHandler;
 
-namespace FoodDelivery.Patterns.Chain
+public abstract class OrderHandler
 {
-    public abstract class OrderHandler
+    protected OrderHandler? _nextHandler;
+
+    public OrderHandler SetNext(OrderHandler handler)
     {
-        protected OrderHandler? _nextHandler;
+        _nextHandler = handler;
+        return handler;
+    }
 
-        public OrderHandler SetNext(OrderHandler handler)
+    public abstract bool Handle(Order.Order order);
+
+    protected bool HandleNext(Order.Order order)
+    {
+        if (_nextHandler != null)
         {
-            _nextHandler = handler;
-            return handler;
+            return _nextHandler.Handle(order);
         }
-
-        public abstract bool Handle(Order order);
-
-        protected bool HandleNext(Order order)
-        {
-            if (_nextHandler != null)
-            {
-                return _nextHandler.Handle(order);
-            }
-            return true;
-        }
+        return true;
     }
 }
+
