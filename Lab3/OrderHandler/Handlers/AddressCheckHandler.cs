@@ -1,4 +1,4 @@
-namespace Lab3.OrderHandler;
+namespace Lab3.OrderHandler.Handlers;
 
 public class AddressCheckHandler : OrderHandler
 {

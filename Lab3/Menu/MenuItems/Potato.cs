@@ -1,8 +1,8 @@
-namespace Lab3.Menu;
+namespace Lab3.Menu.MenuItems;
 
 public class Potato : MenuItemBase
 {
-    public Potato(string name, decimal price, int quantity) 
+    public Potato() 
         : base("Potato", 100, 1)
     {
     }
