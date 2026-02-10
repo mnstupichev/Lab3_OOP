@@ -1,4 +1,5 @@
 using Lab3.Menu;
+using Lab3.Menu.MenuItems;
 using Lab3.PriceCalculator.Delivery;
 using Lab3.PriceCalculator.Discount;
 using Lab3.PriceCalculator.Taxes;
@@ -8,35 +9,41 @@ namespace Lab3.Tests;
 public class PriceCalculatorTests
 {
     [Fact]
-    public void PriceCalculator_NoDiscountNoTax_CalculatesCorrectly()
+    public void PriceCalculator_NoDiscountNoTax_StandardDelivery_CalculatesCorrectly()
     {
         var calculator = new PriceCalculator.PriceCalculator(
             new NoDiscountStrategy(),
-            new StandardDeliveryStrategy(50m),
+            new StandartDeliveryStrategy(50),
             new NoTaxStrategy()
         );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Pizza", 500m));
-            
+        var items = new List<IMenuItem>
+        {
+            new Potato()
+        };
+        var order = new Order.Order("Street", false, items);
+        
         var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(550m, total);
+        
+        Assert.Equal(150, total);
     }
 
     [Fact]
     public void PriceCalculator_WithDiscount_CalculatesCorrectly()
     {
         var calculator = new PriceCalculator.PriceCalculator(
-            new PercentDiscountStrategy(10m),
-            new StandardDeliveryStrategy(50m),
+            new PercentDiscountStrategy(10),
+            new StandartDeliveryStrategy(50),
             new NoTaxStrategy()
         );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Pizza", 1000m));
-            
+        var items = new List<IMenuItem>
+        {
+            new Potato()
+        };
+        var order = new Order.Order("Street", false, items);
+        
         var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(950m, total);
+
+        Assert.Equal(140, total);
     }
 
     [Fact]
@@ -44,97 +51,76 @@ public class PriceCalculatorTests
     {
         var calculator = new PriceCalculator.PriceCalculator(
             new NoDiscountStrategy(),
-            new StandardDeliveryStrategy(50m),
-            new TaxStrategy(10m)
+            new StandartDeliveryStrategy(50),
+            new TaxStrategy(10)
         );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Pizza", 1000m));
-            
+        var items = new List<IMenuItem>
+        {
+            new Potato()
+        };
+        var order = new Order.Order("Street", false, items);
+        
         var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(1150m, total);
+
+        Assert.Equal(160, total);
     }
 
     [Fact]
     public void PriceCalculator_WithDiscountAndTax_CalculatesCorrectly()
     {
         var calculator = new PriceCalculator.PriceCalculator(
-            new PercentDiscountStrategy(20m),
-            new StandardDeliveryStrategy(100m),
-            new TaxStrategy(10m)
+            new PercentDiscountStrategy(10),
+            new StandartDeliveryStrategy(50),
+            new TaxStrategy(10)
         );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Pizza", 1000m));
-            
+        var items = new List<IMenuItem>
+        {
+            new Potato()
+        };
+        var order = new Order.Order("Street", false, items);
+        
         var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(980m, total);
+        
+        Assert.Equal(149, total);
     }
 
     [Fact]
-    public void PriceCalculator_FreeDelivery_CalculatesCorrectly()
+    public void PriceCalculator_FreeDeliveryAboveThreshold_CalculatesCorrectly()
     {
         var calculator = new PriceCalculator.PriceCalculator(
             new NoDiscountStrategy(),
-            new FreeDeliveryStrategy(1000m),
+            new FreeDeliveryStrategy(),
             new NoTaxStrategy()
         );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Pizza", 1500m));
-            
+        var items = new List<IMenuItem>
+        {
+            new Pizza()
+        };
+        var order = new Order.Order("Street", false, items);
+        
         var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(1500m, total);
-    }
 
-    [Fact]
-    public void PriceCalculator_ExpressDelivery_CalculatesCorrectly()
-    {
-        var calculator = new PriceCalculator.PriceCalculator(
-            new NoDiscountStrategy(),
-            new StandartDeliveryStrategy(200m),
-            new NoTaxStrategy()
-        );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Burger", 500m));
-            
-        var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(700m, total);
+        Assert.Equal(1000, total);
     }
-
+    
     [Fact]
     public void PriceCalculator_MultipleItems_CalculatesCorrectly()
     {
         var calculator = new PriceCalculator.PriceCalculator(
-            new PercentDiscountStrategy(10m),
-            new StandardDeliveryStrategy(50m),
-            new TaxStrategy(20m)
+            new NoDiscountStrategy(),
+            new StandartDeliveryStrategy(50),
+            new NoTaxStrategy()
         );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Pizza", 500m));
-        order.Add(new MenuItemBase("Burger", 300m));
-        order.Add(new MenuItemBase("Cola", 100m));
-            
+        var items = new List<IMenuItem>
+        {
+            new Potato(),
+            new Potato(),
+            new Pizza()
+        };
+        var order = new Order.Order("Street", false, items);
+        
         var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(860m, total);
-    }
 
-    [Fact]
-    public void PriceCalculator_ComplexScenario_CalculatesCorrectly()
-    {
-        var calculator = new PriceCalculator.PriceCalculator(
-            new PercentDiscountStrategy(15m),
-            new StandardDeliveryStrategy(75m),
-            new TaxStrategy(5m)
-        );
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Item1", 1000m));
-        order.Add(new MenuItemBase("Item2", 500m));
-            
-        var total = calculator.CalculateTotal(order);
-            
-        Assert.Equal(1416.25m, total);
+        Assert.Equal(1200, total);
     }
 }

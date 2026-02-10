@@ -1,4 +1,5 @@
 using Lab3.Menu;
+using Lab3.Menu.MenuItems;
 using Lab3.Order;
 
 namespace Lab3.Tests;
@@ -6,93 +7,62 @@ namespace Lab3.Tests;
 public class OrderTests
 {
     [Fact]
-    public void Order_InitialState_IsCreated()
+    public void Order_Constructor_InitializesWithParameters()
     {
-        var order = new Order.Order();
-            
-        Assert.Equal("Created", order.GetStateName());
+        var items = new List<IMenuItem> 
+        { 
+            new Potato()
+        };
+        var order = new Order.Order("Street", true, items);
+        
+        Assert.NotNull(order.Items);
+        Assert.Single(order.Items);
     }
 
     [Fact]
-    public void Order_AddItem_ItemIsAdded()
+    public void Order_Paid_ReturnsFalse()
     {
-        var order = new Order.Order();
-        var item = new MenuItemBase("Pizza", 500m);
-            
-        order.Add(item);
-            
-        Assert.Single(order.GetItems());
-        Assert.Contains(item, order.GetItems());
+        var order = new Order.Order("Street", false, new List<IMenuItem>());
+      
+        Assert.False(order.Paid);
     }
 
     [Fact]
-    public void Order_SetAddress_AddressIsSet()
+    public void Order_ChangeStage_ChangesStage()
     {
-        var order = new Order.Order();
-            
-        order.SetAddress("Test Street 123");
-            
-        Assert.Equal("Test Street 123", order.GetAddress());
+        var order = new Order.Order("Street", false, new List<IMenuItem>());
+        
+        order.ChangeStage(OrderStage.Preparing);
+        
+        Assert.Equal(OrderStage.Preparing, order._stage);
     }
 
     [Fact]
-    public void Order_SetPaid_PaidStatusIsSet()
+    public void Order_InitialStage_IsCreated()
     {
-        var order = new Order.Order();
-            
-        order.SetPaid(true);
-            
-        Assert.True(order.IsPaid());
+        var order = new Order.Order("Street", false, new List<IMenuItem>());
+        
+        Assert.Equal(OrderStage.Created, order._stage);
     }
 
     [Fact]
-    public void Order_GetItemsPrice_CalculatesCorrectTotal()
+    public void Order_Address_CanBeSet()
     {
-        var order = new Order.Order();
-        order.Add(new MenuItemBase("Pizza", 500m));
-        order.Add(new MenuItemBase("Burger", 300m));
-            
-        var total = order.GetItemsPrice();
-            
-        Assert.Equal(800m, total);
+        var order = new Order.Order("Street", false, new List<IMenuItem>());
+        
+        Assert.Equal("Street", order.Address);
     }
 
     [Fact]
-    public void Order_SetTotalPrice_TotalPriceIsSet()
+    public void Order_Items_CanBeAccessed()
     {
-        var order = new Order.Order();
-            
-        order.SetTotalPrice(1000m);
-            
-        Assert.Equal(1000m, order.GetTotalPrice());
-    }
-
-    [Fact]
-    public void OrderBuilder_Build_CreatesOrderWithItems()
-    {
-        var builder = new OrderBuilder();
-        var item = new MenuItemBase("Pizza", 500m);
-            
-        var order = builder
-            .WithItem(item)
-            .WithAddress("Test Street")
-            .WithPaid(true)
-            .Build();
-            
-        Assert.Single(order.GetItems());
-        Assert.Equal("Test Street", order.GetAddress());
-        Assert.True(order.IsPaid());
-    }
-
-    [Fact]
-    public void OrderBuilder_Reset_CreatesNewOrder()
-    {
-        var builder = new OrderBuilder();
-        builder.WithItem(new MenuItemBase("Pizza", 500m));
-            
-        builder.Reset();
-        var newOrder = builder.Build();
-            
-        Assert.Empty(newOrder.GetItems());
+        var items = new List<IMenuItem> 
+        { 
+            new Potato(),
+            new Burger()
+        };
+        var order = new Order.Order("Street", false, items);
+        
+        Assert.Equal(2, order.Items.Count);
     }
 }
