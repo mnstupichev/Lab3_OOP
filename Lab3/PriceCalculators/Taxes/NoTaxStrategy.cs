@@ -1,4 +1,4 @@
-namespace Lab3.PriceCalculator.Taxes;
+namespace Lab3.PriceCalculators.Taxes;
 
 public class NoTaxStrategy : ITaxStrategy
 {

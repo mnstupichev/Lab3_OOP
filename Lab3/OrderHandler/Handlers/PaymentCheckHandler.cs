@@ -1,10 +1,12 @@
+using Lab3.Orders;
+
 namespace Lab3.OrderHandler.Handlers;
 
 public class PaymentCheckHandler : OrderHandler
 {
-    public override bool Handle(Order.Order order)
+    public override bool Handle(Order order)
     {
-        if (!order.Paid)
+        if (!order.IsPaid)
         {
             return false;
         }

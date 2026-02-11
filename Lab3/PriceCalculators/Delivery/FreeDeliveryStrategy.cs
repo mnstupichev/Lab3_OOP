@@ -1,4 +1,4 @@
-namespace Lab3.PriceCalculator.Delivery;
+namespace Lab3.PriceCalculators.Delivery;
 
 public class FreeDeliveryStrategy : IDeliveryStrategy
 {
@@ -11,7 +11,7 @@ public class FreeDeliveryStrategy : IDeliveryStrategy
 
     public decimal CalculateDeliveryCost(decimal orderAmount)
     {
-        if (orderAmount > _threshold)
+        if (orderAmount >= _threshold)
         {
             return 0;
         }

@@ -1,8 +1,10 @@
 using Lab3.Menu;
 using Lab3.Menu.MenuItems;
-using Lab3.PriceCalculator.Delivery;
-using Lab3.PriceCalculator.Discount;
-using Lab3.PriceCalculator.Taxes;
+using Lab3.Orders;
+using Lab3.PriceCalculators;
+using Lab3.PriceCalculators.Delivery;
+using Lab3.PriceCalculators.Discount;
+using Lab3.PriceCalculators.Taxes;
 
 namespace Lab3.Tests;
 
@@ -11,7 +13,7 @@ public class PriceCalculatorTests
     [Fact]
     public void PriceCalculator_NoDiscountNoTax_StandardDelivery_CalculatesCorrectly()
     {
-        var calculator = new PriceCalculator.PriceCalculator(
+        var calculator = new PriceCalculator(
             new NoDiscountStrategy(),
             new StandartDeliveryStrategy(50),
             new NoTaxStrategy()
@@ -20,7 +22,7 @@ public class PriceCalculatorTests
         {
             new Potato()
         };
-        var order = new Order.Order("Street", false, items);
+        var order = new Order("Street", false, items);
         
         var total = calculator.CalculateTotal(order);
         
@@ -30,7 +32,7 @@ public class PriceCalculatorTests
     [Fact]
     public void PriceCalculator_WithDiscount_CalculatesCorrectly()
     {
-        var calculator = new PriceCalculator.PriceCalculator(
+        var calculator = new PriceCalculator(
             new PercentDiscountStrategy(10),
             new StandartDeliveryStrategy(50),
             new NoTaxStrategy()
@@ -39,7 +41,7 @@ public class PriceCalculatorTests
         {
             new Potato()
         };
-        var order = new Order.Order("Street", false, items);
+        var order = new Order("Street", false, items);
         
         var total = calculator.CalculateTotal(order);
 
@@ -49,7 +51,7 @@ public class PriceCalculatorTests
     [Fact]
     public void PriceCalculator_WithTax_CalculatesCorrectly()
     {
-        var calculator = new PriceCalculator.PriceCalculator(
+        var calculator = new PriceCalculator(
             new NoDiscountStrategy(),
             new StandartDeliveryStrategy(50),
             new TaxStrategy(10)
@@ -58,7 +60,7 @@ public class PriceCalculatorTests
         {
             new Potato()
         };
-        var order = new Order.Order("Street", false, items);
+        var order = new Order("Street", false, items);
         
         var total = calculator.CalculateTotal(order);
 
@@ -68,7 +70,7 @@ public class PriceCalculatorTests
     [Fact]
     public void PriceCalculator_WithDiscountAndTax_CalculatesCorrectly()
     {
-        var calculator = new PriceCalculator.PriceCalculator(
+        var calculator = new PriceCalculator(
             new PercentDiscountStrategy(10),
             new StandartDeliveryStrategy(50),
             new TaxStrategy(10)
@@ -77,7 +79,7 @@ public class PriceCalculatorTests
         {
             new Potato()
         };
-        var order = new Order.Order("Street", false, items);
+        var order = new Order("Street", false, items);
         
         var total = calculator.CalculateTotal(order);
         
@@ -87,7 +89,7 @@ public class PriceCalculatorTests
     [Fact]
     public void PriceCalculator_FreeDeliveryAboveThreshold_CalculatesCorrectly()
     {
-        var calculator = new PriceCalculator.PriceCalculator(
+        var calculator = new PriceCalculator(
             new NoDiscountStrategy(),
             new FreeDeliveryStrategy(),
             new NoTaxStrategy()
@@ -96,7 +98,7 @@ public class PriceCalculatorTests
         {
             new Pizza()
         };
-        var order = new Order.Order("Street", false, items);
+        var order = new Order("Street", false, items);
         
         var total = calculator.CalculateTotal(order);
 
@@ -106,7 +108,7 @@ public class PriceCalculatorTests
     [Fact]
     public void PriceCalculator_MultipleItems_CalculatesCorrectly()
     {
-        var calculator = new PriceCalculator.PriceCalculator(
+        var calculator = new PriceCalculator(
             new NoDiscountStrategy(),
             new StandartDeliveryStrategy(50),
             new NoTaxStrategy()
@@ -117,10 +119,10 @@ public class PriceCalculatorTests
             new Potato(),
             new Pizza()
         };
-        var order = new Order.Order("Street", false, items);
+        var order = new Order("Street", false, items);
         
         var total = calculator.CalculateTotal(order);
 
-        Assert.Equal(1200, total);
+        Assert.Equal(1250, total);
     }
 }

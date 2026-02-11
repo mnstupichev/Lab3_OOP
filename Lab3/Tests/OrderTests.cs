@@ -1,6 +1,6 @@
 using Lab3.Menu;
 using Lab3.Menu.MenuItems;
-using Lab3.Order;
+using Lab3.Orders;
 
 namespace Lab3.Tests;
 
@@ -13,7 +13,7 @@ public class OrderTests
         { 
             new Potato()
         };
-        var order = new Order.Order("Street", true, items);
+        var order = new Order("Street", true, items);
         
         Assert.NotNull(order.Items);
         Assert.Single(order.Items);
@@ -22,33 +22,33 @@ public class OrderTests
     [Fact]
     public void Order_Paid_ReturnsFalse()
     {
-        var order = new Order.Order("Street", false, new List<IMenuItem>());
+        var order = new Order("Street", false, new List<IMenuItem>());
       
-        Assert.False(order.Paid);
+        Assert.False(order.IsPaid);
     }
 
     [Fact]
     public void Order_ChangeStage_ChangesStage()
     {
-        var order = new Order.Order("Street", false, new List<IMenuItem>());
+        var order = new Order("Street", false, new List<IMenuItem>());
         
         order.ChangeStage(OrderStage.Preparing);
         
-        Assert.Equal(OrderStage.Preparing, order._stage);
+        Assert.Equal(OrderStage.Preparing, order.Stage);
     }
 
     [Fact]
     public void Order_InitialStage_IsCreated()
     {
-        var order = new Order.Order("Street", false, new List<IMenuItem>());
+        var order = new Order("Street", false, new List<IMenuItem>());
         
-        Assert.Equal(OrderStage.Created, order._stage);
+        Assert.Equal(OrderStage.Created, order.Stage);
     }
 
     [Fact]
     public void Order_Address_CanBeSet()
     {
-        var order = new Order.Order("Street", false, new List<IMenuItem>());
+        var order = new Order("Street", false, new List<IMenuItem>());
         
         Assert.Equal("Street", order.Address);
     }
@@ -61,7 +61,7 @@ public class OrderTests
             new Potato(),
             new Burger()
         };
-        var order = new Order.Order("Street", false, items);
+        var order = new Order("Street", false, items);
         
         Assert.Equal(2, order.Items.Count);
     }

@@ -1,22 +1,25 @@
+using Lab3.OrderHandler.Handlers;
+using Lab3.Orders;
+
 namespace Lab3.OrderHandler;
 
-public abstract class OrderHandler
+public abstract class OrderHandler :  IOrderHandler
 {
-    protected OrderHandler? _nextHandler;
+    protected OrderHandler? NextHandler;
 
     public OrderHandler SetNext(OrderHandler handler)
     {
-        _nextHandler = handler;
+        NextHandler = handler;
         return handler;
     }
 
-    public abstract bool Handle(Order.Order order);
+    public abstract bool Handle(Order order);
 
-    protected bool HandleNext(Order.Order order)
+    protected bool HandleNext(Order order)
     {
-        if (_nextHandler != null)
+        if (NextHandler != null)
         {
-            return _nextHandler.Handle(order);
+            return NextHandler.Handle(order);
         }
         return true;
     }

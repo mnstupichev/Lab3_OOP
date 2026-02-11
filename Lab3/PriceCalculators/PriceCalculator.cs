@@ -1,8 +1,9 @@
-using Lab3.PriceCalculator.Delivery;
-using Lab3.PriceCalculator.Discount;
-using Lab3.PriceCalculator.Taxes;
+using Lab3.Orders;
+using Lab3.PriceCalculators.Delivery;
+using Lab3.PriceCalculators.Discount;
+using Lab3.PriceCalculators.Taxes;
 
-namespace Lab3.PriceCalculator;
+namespace Lab3.PriceCalculators;
 
 public class PriceCalculator
 {
@@ -20,7 +21,7 @@ public class PriceCalculator
         _taxStrategy = taxStrategy;
     }
 
-    public decimal CalculateTotal(Order.Order order)
+    public decimal CalculateTotal(Order order)
     {
         decimal itemsTotal = order.Items.Sum(item => item.Price);
 

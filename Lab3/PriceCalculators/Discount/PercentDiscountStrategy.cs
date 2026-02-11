@@ -1,4 +1,4 @@
-namespace Lab3.PriceCalculator.Discount;
+namespace Lab3.PriceCalculators.Discount;
 
 public class PercentDiscountStrategy : IDiscountStrategy
 {

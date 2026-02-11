@@ -1,3 +1,5 @@
+using Lab3.Orders;
+
 namespace Lab3.OrderHandler.Handlers;
 
 public class RestaurantWorkingHandler : OrderHandler
@@ -11,7 +13,7 @@ public class RestaurantWorkingHandler : OrderHandler
         _closingHour = closingHour;
     }
 
-    public override bool Handle(Order.Order order)
+    public override bool Handle(Order order)
     {
         int currentHour = DateTime.Now.Hour;
 

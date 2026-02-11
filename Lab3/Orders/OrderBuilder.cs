@@ -1,6 +1,6 @@
 using Lab3.Menu;
 
-namespace Lab3.Order;
+namespace Lab3.Orders;
 
 public class OrderBuilder
 {

@@ -1,4 +1,4 @@
-namespace Lab3.PriceCalculator.Delivery;
+namespace Lab3.PriceCalculators.Delivery;
 
 public interface IDeliveryStrategy
 {

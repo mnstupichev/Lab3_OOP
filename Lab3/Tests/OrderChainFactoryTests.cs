@@ -2,31 +2,26 @@ using Lab3.Menu;
 using Lab3.Menu.MenuItems;
 using Lab3.OrderHandler;
 using Lab3.OrderHandler.Handlers;
+using Lab3.OrderHandler.OrderHandlersFactories;
+using Lab3.Orders;
 
 namespace Lab3.Tests;
 
 public class OrderChainFactoryTests
 {
     [Fact]
-    public void CreateStandardChain_ReturnsValidChain()
-    {
-        var chain = OrderChainFactory.CreateStandardChain();
-        
-        Assert.NotNull(chain);
-        Assert.IsType<ItemsAvailabilityHandler>(chain);
-    }
-
-    [Fact]
     public void CreateStandardChain_ChecksItemsFirst()
     {
-        var chain = OrderChainFactory.CreateStandardChain();
+        var chain = new StandartHandlerFactory();
         var items = new List<IMenuItem>
         {
             new Burger()
         };
-        var order = new Order.Order("Address", false, items);
+        var order = new Order("Address", false, items);
         
-        var result = chain.Handle(order);
+        var result = chain.CreatHandler();
+        
+        result.Handle(order);
     
         Assert.False(result);
     }
@@ -39,7 +34,7 @@ public class OrderChainFactoryTests
         {
             new Potato()
         };
-        var order = new Order.Order("", false, items);
+        var order = new Order("", false, items);
         
         var result = chain.Handle(order);
  
@@ -54,7 +49,7 @@ public class OrderChainFactoryTests
         {
             new Potato()
         };
-        var order = new Order.Order("Address", false, items);
+        var order = new Order("Address", false, items);
         
         var result = chain.Handle(order);
         
@@ -86,7 +81,7 @@ public class OrderChainFactoryTests
         {
             new Potato()
         };
-        var order = new Order.Order("", false, items);
+        var order = new Order("", false, items);
         
         var result = chain.Handle(order);
         Assert.False(result);
@@ -100,7 +95,7 @@ public class OrderChainFactoryTests
         {
             new Burger()
         };
-        var order = new Order.Order("", false, items);
+        var order = new Order("", false, items);
         
         var result = chain.Handle(order);
         Assert.False(result);

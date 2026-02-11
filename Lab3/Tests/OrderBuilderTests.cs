@@ -1,5 +1,5 @@
 using Lab3.Menu.MenuItems;
-using Lab3.Order;
+using Lab3.Orders;
 
 namespace Lab3.Tests;
 
@@ -24,7 +24,7 @@ public class OrderBuilderTests
         builder.WithPaid(true);
         var order = builder.Build();
         
-        Assert.True(order.Paid);
+        Assert.True(order.IsPaid);
     }
 
     [Fact]
