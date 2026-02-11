@@ -15,9 +15,15 @@ public class StandartHandlerFactory : IOrderHandlerFactory
     
     public IOrderHandler CreatHandler()
     {
-        return new ItemsAvailabilityHandler()
-            .SetNext(new AddressCheckHandler())
-            .SetNext(new PaymentCheckHandler())
-            .SetNext(new RestaurantWorkingHandler(_openingHour, _closingHour));
+        var itemsAvailabilityHandler = new ItemsAvailabilityHandler();
+        var addressCheckHandler = new AddressCheckHandler();
+        var paymentCheckHandler = new PaymentCheckHandler();
+        var restaurantWorkingHandler = new RestaurantWorkingHandler(_openingHour, _closingHour);
+    
+        itemsAvailabilityHandler.SetNext(addressCheckHandler);
+        addressCheckHandler.SetNext(paymentCheckHandler);
+        paymentCheckHandler.SetNext(restaurantWorkingHandler);
+
+        return itemsAvailabilityHandler;
     }
 }

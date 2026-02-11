@@ -10,7 +10,7 @@ public abstract class OrderHandler :  IOrderHandler
     public OrderHandler SetNext(OrderHandler handler)
     {
         NextHandler = handler;
-        return handler;
+        return this;
     }
 
     public abstract bool Handle(Order order);

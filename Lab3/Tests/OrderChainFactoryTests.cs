@@ -10,102 +10,78 @@ namespace Lab3.Tests;
 public class OrderChainFactoryTests
 {
     [Fact]
-    public void CreateStandardChain_ChecksItemsFirst()
+    public void StandardHandler_WorksCorrectly()
     {
-        var chain = new StandartHandlerFactory();
         var items = new List<IMenuItem>
         {
-            new Burger()
+            new Potato()
         };
-        var order = new Order("Address", false, items);
+        var order = new Order("Address", true, items);
+
+        var handler = new StandartHandlerFactory().CreatHandler();
+        var result = handler.Handle(order);
         
-        var result = chain.CreatHandler();
-        
-        result.Handle(order);
+        Assert.True(result);
+    }
     
+    [Fact]
+    public void StandardHandler_ChecksItemsAvailability()
+    {
+        var items = new List<IMenuItem>
+        {
+            new Burger()
+        };
+        var order = new Order("Address", true, items);
+
+        var handler = new StandartHandlerFactory().CreatHandler();
+        var result = handler.Handle(order);
+        
         Assert.False(result);
     }
-
+    
     [Fact]
-    public void CreateStandardChain_WithValidItemsButNoAddress_FailsOnAddress()
+    public void StandardHandler_ChecksAddressName()
     {
-        var chain = OrderChainFactory.CreateStandardChain();
         var items = new List<IMenuItem>
         {
             new Potato()
         };
-        var order = new Order("", false, items);
+        var order = new Order("", true, items);
+
+        var handler = new StandartHandlerFactory().CreatHandler();
+        var result = handler.Handle(order);
         
-        var result = chain.Handle(order);
- 
         Assert.False(result);
     }
-
+    
     [Fact]
-    public void CreateStandardChain_WithValidItemsAndAddress_FailsOnPayment()
+    public void StandardHandler_ChecksIsPaid()
     {
-        var chain = OrderChainFactory.CreateStandardChain();
         var items = new List<IMenuItem>
         {
             new Potato()
         };
         var order = new Order("Address", false, items);
-        
-        var result = chain.Handle(order);
+
+        var handler = new StandartHandlerFactory().CreatHandler();
+        var result = handler.Handle(order);
         
         Assert.False(result);
     }
-
+    
     [Fact]
-    public void CreateStandardChain_CustomWorkingHours()
+    public void PickUpHandler_IgnoresAddress()
     {
-        var chain = OrderChainFactory.CreateStandardChain(10, 20);
-        
-        Assert.NotNull(chain);
-    }
-
-    [Fact]
-    public void CreatePickupChain_ReturnsValidChain()
-    {
-        var chain = OrderChainFactory.CreatePickupChain();
-        
-        Assert.NotNull(chain);
-        Assert.IsType<ItemsAvailabilityHandler>(chain);
-    }
-
-    [Fact]
-    public void CreatePickupChain_SkipsAddressCheck()
-    {
-        var chain = OrderChainFactory.CreatePickupChain();
         var items = new List<IMenuItem>
         {
             new Potato()
         };
-        var order = new Order("", false, items);
-        
-        var result = chain.Handle(order);
-        Assert.False(result);
-    }
+        var order = new Order("", true, items);
 
-    [Fact]
-    public void CreatePickupChain_ChecksItemsFirst()
-    {
-        var chain = OrderChainFactory.CreatePickupChain();
-        var items = new List<IMenuItem>
-        {
-            new Burger()
-        };
-        var order = new Order("", false, items);
+        var handler = new PickUpHandlerFactory().CreatHandler();
+        var result = handler.Handle(order);
         
-        var result = chain.Handle(order);
-        Assert.False(result);
-    }
-
-    [Fact]
-    public void CreatePickupChain_CustomWorkingHours()
-    {
-        var chain = OrderChainFactory.CreatePickupChain(8, 23);
-        
-        Assert.NotNull(chain);
+        Assert.True(result);
     }
 }
+

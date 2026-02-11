@@ -15,8 +15,13 @@ public class PickUpHandlerFactory :  IOrderHandlerFactory
     
     public IOrderHandler CreatHandler()
     {
-        return new ItemsAvailabilityHandler()
-            .SetNext(new PaymentCheckHandler())
-            .SetNext(new RestaurantWorkingHandler(_openingHour, _closingHour));
+        var itemsAvailabilityHandler = new ItemsAvailabilityHandler();
+        var paymentCheckHandler = new PaymentCheckHandler();
+        var restaurantWorkingHandler = new RestaurantWorkingHandler(_openingHour, _closingHour);
+    
+        itemsAvailabilityHandler.SetNext(paymentCheckHandler);
+        paymentCheckHandler.SetNext(restaurantWorkingHandler);
+
+        return itemsAvailabilityHandler;
     }
 }
